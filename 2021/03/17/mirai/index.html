@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>mirai框架QQ机器人折腾记 | Salieri</title><script src="https://cdn.bootcss.com/valine/1.4.4/Valine.min.js"></script><link rel="stylesheet" href="/css/arknights.css"><link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/styles/atom-one-dark-reasonable.min.css"><style>@font-face {
+ font-family: BenderLight;
+ src: local('Bender'), url("/font/BenderLight.ttf");
+}
+@font-face {
+ font-family: 'JetBrains Mono';
+ src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
+}</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Salieri" type="application/atom+xml">
+</head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2021-03-17T10:00:12.000Z" id="date"> 2021-03-17</time></span><br><span>updated:<time datetime="2021-03-18T16:14:34.617Z" id="updated"> 2021-03-19</time></span></div><h1>mirai框架QQ机器人折腾记</h1><hr></div><div id="post-content"><h1 id="一、什么是mirai"><a href="#一、什么是mirai" class="headerlink" title="一、什么是mirai"></a>一、什么是mirai</h1><h2 id="1-1-QQ机器人"><a href="#1-1-QQ机器人" class="headerlink" title="1.1 QQ机器人"></a>1.1 QQ机器人</h2><p>​        一段时间以前，QQ机器人是一种偏商业化的存在，典型的比如酷Q机器人等…后端开发者将机器人的全部源代码都进行封装，再由前端开发者调用这些封装的API做成UI界面，使用者并不需要去访问内存逻辑，只需要使用UI界面即可，十分的方便。</p>
+<p>​        之后的事相信大家也听说过了，腾讯（大概是为自己的机器人铺路）大量封杀这种机器人，甚至利用法律来”屠杀”个体开发者。这篇文章不想费口舌来吐槽这种垄断行径，Tx的这种难看的吃相也让人们对他的嘴脸更加了解。</p>
+<p>​        商业化的机器人没有了，但开源社区的QQ机器人仍然在负隅顽抗。笔者是闲的时候逛逛github，以此发现了mirai框架的存在。</p>
+<h2 id="1-2-mirai框架"><a href="#1-2-mirai框架" class="headerlink" title="1.2 mirai框架"></a>1.2 mirai框架</h2><p>​        mirai是一种基于java、kotlin的机器人框架总称。</p>
+<p>​        具体的生态在其github文档里都有介绍（笔者知道的也是半斤八两）。</p>
+<p>​        mirai的底层叫mirai-console，里面封装了许多API。</p>
+<p>​        当然，装这个库很麻烦，mirai官方也特地准备了一个启动器，叫mirai-console-loader（以下简称mcl）。</p>
+<p>​        我相信看到这里，你的脑袋里一定一片雾水。如果你玩过minecraft的话，那打个比方就会很好理解了。</p>
+<p>​        mcl就是minecraft的启动器，你可以往mcl里装各种插件（如何安装后文会说到）。这些插件可以是你自己写的（利用mirai官方给的那些API），也可以是你从mirai社区里面找到的（开源社区的大部分开发者都很愿意将自己的插件分享出来以供讨论学习）。</p>
+<p>​        当你启动mcl的时候，mcl会读取你的所有插件，一个个安装，然后再启动你的机器人。</p>
+<p>​        如果你只是想使用mirai机器人而不是开发他的话，你会发现，你是一行代码都不用触及的。</p>
+<h2 id="1-3-相关链接"><a href="#1-3-相关链接" class="headerlink" title="1.3 相关链接"></a>1.3 相关链接</h2><p><a target="_blank" rel="noopener" href="https://mirai.mamoe.net/">mirai论坛</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/mamoe/mirai">mirai的repo</a></p>
+<h1 id="二、环境配置"><a href="#二、环境配置" class="headerlink" title="二、环境配置"></a>二、环境配置</h1><p>这里我们会先配置mirai所需要的各种环境。</p>
+<h2 id="2-1-操作系统"><a href="#2-1-操作系统" class="headerlink" title="2.1 操作系统"></a>2.1 操作系统</h2><p>我先在自己电脑的windows10系统上配置成功，然后再在我的服务器（CentOS7系统）上配置成功。</p>
+<p>下文将介绍centOS7的配置过程。</p>
+<h2 id="2-2-java环境"><a href="#2-2-java环境" class="headerlink" title="2.2 java环境"></a>2.2 java环境</h2><p>这一部分就略着说了，因为百度的教程确实很多。。</p>
+<p>大致步骤就是：</p>
+<p>（1）从Oracle官网下载jdk包（我下载的是java11，mirai官方要求版本&gt;=11）</p>
+<p>（2）将jdk包传入你的服务器（我的服务器使用的是XShell与Xftp进行管理的，传文件很方便）</p>
+<p>（3）解压jdk包（tar -zxvf [要解压的文件]）</p>
+<p>（4）配置环境变量（使用vi或vim打开/etc/profile，配置JAVA_PATH…等一堆环境变量）</p>
+<p>（5）创建三个软链接（ln指令，主要是你解压的地方杂七杂八的，比如我就直接在/home里面解压了，我需要把他软链接到/usr/bin里）</p>
+<h2 id="2-3-部署mcl"><a href="#2-3-部署mcl" class="headerlink" title="2.3 部署mcl"></a>2.3 部署mcl</h2><p>从<a target="_blank" rel="noopener" href="https://github.com/iTXTech/mirai-console-loader">mirai-console-loader的repo里</a>下载（release）最新版的启动器。</p>
+<p>将这个启动器传入你的服务器里，观察一下他的文件结构，我们解析一下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">|bots    &#x2F;&#x2F;存放你的机器人的运行日志、设备认证等等...</span><br><span class="line">|config  &#x2F;&#x2F;设置运行参数（比如你的机器人的QQ号之类的）、包括各种插件的运行参数</span><br><span class="line">|data    &#x2F;&#x2F;不用管</span><br><span class="line">|libs    &#x2F;&#x2F;不用管</span><br><span class="line">|MxLibData  &#x2F;&#x2F;不用管</span><br><span class="line">|plugins  &#x2F;&#x2F;你的所有插件的位置，插件是jar包的形式</span><br><span class="line">|scripts  &#x2F;&#x2F;不用管</span><br><span class="line">|config.json  &#x2F;&#x2F;不用管</span><br><span class="line">|LICENSE  &#x2F;&#x2F;不用管</span><br><span class="line">|mcl      &#x2F;&#x2F;运行文件</span><br><span class="line">|mcl.cmd  &#x2F;&#x2F;不用管</span><br><span class="line">|mcl.jar  &#x2F;&#x2F;不用管</span><br><span class="line">|README.md&#x2F;&#x2F;说明书</span><br></pre></td></tr></table></figure>
+<p>运行的时候，只需要在命令行的当前目录里输入./mcl即可。</p>
+<h2 id="2-4-尝试运行一下？"><a href="#2-4-尝试运行一下？" class="headerlink" title="2.4 尝试运行一下？"></a>2.4 尝试运行一下？</h2><p>先修改运行参数，主要需要修改config/Console/AutoLogin.yml，填入你的机器人的QQ号和密码就行。</p>
+<p>protocol需要选择ANDROID_PHONE，因为其他两种方式目前好像都有bug（风险过高会直接不让你登陆，而PHONE会让你滑滑块验证）</p>
+<p>然后回到mcl的主目录，运行mcl即可（./mcl）</p>
+<p>第一次登陆由于是陌生的环境登陆，一定会让你验证自己的身份，涉及到的方式有两个，滑块验证与扫码验证。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/project-mirai/mirai-login-solver-selenium">滑块验证解决方法</a></p>
+<p>扫码验证更是很好解决，只需要用你的手机扫一下码就好啦。</p>
+<p>成功运行后，我们用另外一个QQ号对我们的机器人说一些话，你会发现这些都记录在了命令行里（甚至连[正在输入…]的状态都能记录下来！）</p>
+<h2 id="2-5-加入插件"><a href="#2-5-加入插件" class="headerlink" title="2.5 加入插件"></a>2.5 加入插件</h2><p>但这个机器人还是一个没有任何功能的机器人，我们需要加入一些功能。</p>
+<p>比方说加入某个<a target="_blank" rel="noopener" href="https://github.com/bloodyrabbit/mirai-setu">随机涩图插件</a>（</p>
+<p>我们下载这个插件的release版本，应该是一个jar包。</p>
+<p>有的比较忙的作者可能会直接上传源代码，需要你自己编译，如何编译我们会在之后的编写自己的mirai插件里说到。</p>
+<p>把这个jar包直接塞到你mcl目录下的plugins文件夹里就好啦！</p>
+<p>然后启动你的mcl，看看能不能查询涩图了（</p>
+<h1 id="三、编写属于你自己的mirai插件！"><a href="#三、编写属于你自己的mirai插件！" class="headerlink" title="三、编写属于你自己的mirai插件！"></a>三、编写属于你自己的mirai插件！</h1><h2 id="3-1-配置开发环境"><a href="#3-1-配置开发环境" class="headerlink" title="3.1 配置开发环境"></a>3.1 配置开发环境</h2><p>开发嘛，肯定是要IDE的啦。节约生命，我用IDE。</p>
+<p>这里推荐JAVA的IDE是IDEA，确实很好用。</p>
+<h2 id="3-2-下载mirai插件"><a href="#3-2-下载mirai插件" class="headerlink" title="3.2 下载mirai插件"></a>3.2 下载mirai插件</h2><p>mirai官方为IDEA提供了mirai插件，这个插件提供了代码检查功能、以及封装成jar包功能。</p>
+<p>至于如何下插件，就略过了。</p>
+<h2 id="3-3-下载官方插件样例"><a href="#3-3-下载官方插件样例" class="headerlink" title="3.3 下载官方插件样例"></a>3.3 下载官方插件样例</h2><p><a target="_blank" rel="noopener" href="https://github.com/him188/mirai-console-example-plugin">官方插件样例</a></p>
+<p>这个东西我们需要下的是源代码，因为我们要在上面直接编写的。</p>
+<h2 id="3-4-编写"><a href="#3-4-编写" class="headerlink" title="3.4 编写"></a>3.4 编写</h2><p>在src文件夹里存放的就是这个插件的所有源代码了，在这个基础上编写即可，具体的API，请查阅官方文档。</p>
+<p>如果你想要测试你编写的代码的话，你可以从src/test/kotlin文件夹里的RunConsole.kt作为入口，进行编译运行（当然，你要设置机器人的账号、密码、并且帮你的机器人再做一次登陆验证）</p>
+<h2 id="3-5-封装成jar包"><a href="#3-5-封装成jar包" class="headerlink" title="3.5 封装成jar包"></a>3.5 封装成jar包</h2><p>在编写完毕，测试无误后，你可以启动IDEA里的tasks进行封装。</p>
+<p>具体路径为build/mirai/bulidplugin</p>
+<p>之后你就可以在build文件夹里找到你的jar包啦。</p>
+<p>有能力且愿意的话，欢迎分享你的插件，开源社区是一个交流学习的社区，开源永远是百利而无一害的。</p>
+<div id="paginator"></div></div><div id="post-footer"><hr><a href="/2021/03/15/choudai/">抽象代数 Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><details id="reward"><summary>打赏</summary><div id="alipay"><span>支付宝 | Alipay</span><br><img src="/img/Alipay.png"></div><div id="wechat"><span>微信 | WeChat</span><br><img src="/img/WeChat.png"></div></details><div id="Valine"></div><script>new Valine({
+ el: '#Valine'
+ , appId: ''
+ , appKey: ''
+ , placeholder: '此条评论委托企鹅物流发送'
+})</script></div></article><aside><div id="about"><a href="/" id="logo"><img src="https://ak.hypergryph.com/assets/index/images/ak/pc/faction/1.png" alt="Logo"></a><h1 id="Dr"><a href="/"> Dr.Salieri</a></h1><section id="total"><a id="total-archives" href="/archives"><span class="total-title">Archives Total:</span><span class="total-number">3</span></a><div id="total-tags"><span class="total-title">Tags:</span><span class="total-number">3</span></div><div id="total-categories"><span class="total-title">Categories:</span><span class="total-number">0</span></div></section></div><div id="aside-block"><h1>INDEX</h1><div id="post-index"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFmirai"><span class="toc-number">1.</span> <span class="toc-text">一、什么是mirai</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-QQ%E6%9C%BA%E5%99%A8%E4%BA%BA"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 QQ机器人</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-mirai%E6%A1%86%E6%9E%B6"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 mirai框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 相关链接</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">二、环境配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 操作系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-java%E7%8E%AF%E5%A2%83"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 java环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E9%83%A8%E7%BD%B2mcl"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 部署mcl</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-%E5%B0%9D%E8%AF%95%E8%BF%90%E8%A1%8C%E4%B8%80%E4%B8%8B%EF%BC%9F"><span class="toc-number">2.4.</span> <span class="toc-text">2.4 尝试运行一下？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-%E5%8A%A0%E5%85%A5%E6%8F%92%E4%BB%B6"><span class="toc-number">2.5.</span> <span class="toc-text">2.5 加入插件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BC%96%E5%86%99%E5%B1%9E%E4%BA%8E%E4%BD%A0%E8%87%AA%E5%B7%B1%E7%9A%84mirai%E6%8F%92%E4%BB%B6%EF%BC%81"><span class="toc-number">3.</span> <span class="toc-text">三、编写属于你自己的mirai插件！</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E9%85%8D%E7%BD%AE%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 配置开发环境</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E4%B8%8B%E8%BD%BDmirai%E6%8F%92%E4%BB%B6"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 下载mirai插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E4%B8%8B%E8%BD%BD%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E6%A0%B7%E4%BE%8B"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 下载官方插件样例</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-4-%E7%BC%96%E5%86%99"><span class="toc-number">3.4.</span> <span class="toc-text">3.4 编写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-5-%E5%B0%81%E8%A3%85%E6%88%90jar%E5%8C%85"><span class="toc-number">3.5.</span> <span class="toc-text">3.5 封装成jar包</span></a></li></ol></li></ol></div></div><footer><nobr><span class="text-title">©</span><span class="text-content">1970 to 2020</span></nobr><wbr><nobr><span class="text-title">ICP</span><span class="text-content">——备案号——</span></nobr><wbr><wbr><nobr>published with&nbsp;<a target="_blank" rel="noopener" href="http://hexo.io">Hexo&nbsp;</a></nobr><wbr><nobr>Theme&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus/hexo-theme-arknights">Arknight&nbsp;</a></nobr><wbr><nobr>by&nbsp;<a target="_blank" rel="noopener" href="https://github.com/Yue-plus">Yue_plus</a></nobr></footer></aside></main><canvas id="canvas-dust"></canvas><script src="/js/arknights.js"></script><script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script></body></html>
