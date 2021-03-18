@@ -6,7 +6,7 @@
  font-family: 'JetBrains Mono';
  src: local('JetBrains Mono'), url('/font/JetBrainsMono-Regular.woff2') format('woff2');
 }</style><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Salieri" type="application/atom+xml">
-</head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2021-03-17T10:00:12.000Z" id="date"> 2021-03-17</time></span><br><span>updated:<time datetime="2021-03-18T16:11:07.023Z" id="updated"> 2021-03-19</time></span></div><h1>mirai框架QQ机器人折腾记</h1><hr></div><div id="post-content"><h1 id="一、什么是mirai"><a href="#一、什么是mirai" class="headerlink" title="一、什么是mirai"></a>一、什么是mirai</h1><h2 id="1-1-QQ机器人"><a href="#1-1-QQ机器人" class="headerlink" title="1.1 QQ机器人"></a>1.1 QQ机器人</h2><p>​        一段时间以前，QQ机器人是一种偏商业化的存在，典型的比如酷Q机器人等…后端开发者将机器人的全部源代码都进行封装，再由前端开发者调用这些封装的API做成UI界面，使用者并不需要去访问内存逻辑，只需要使用UI界面即可，十分的方便。</p>
+</head><body><header><nav><a href="/">Home</a><a href="/archives/">Archives</a></nav></header><main><article><div id="post-bg"><div id="post-title"><div id="post-info"><span>date:<time datetime="2021-03-17T10:00:12.000Z" id="date"> 2021-03-17</time></span><br><span>updated:<time datetime="2021-03-18T16:14:34.617Z" id="updated"> 2021-03-19</time></span></div><h1>mirai框架QQ机器人折腾记</h1><hr></div><div id="post-content"><h1 id="一、什么是mirai"><a href="#一、什么是mirai" class="headerlink" title="一、什么是mirai"></a>一、什么是mirai</h1><h2 id="1-1-QQ机器人"><a href="#1-1-QQ机器人" class="headerlink" title="1.1 QQ机器人"></a>1.1 QQ机器人</h2><p>​        一段时间以前，QQ机器人是一种偏商业化的存在，典型的比如酷Q机器人等…后端开发者将机器人的全部源代码都进行封装，再由前端开发者调用这些封装的API做成UI界面，使用者并不需要去访问内存逻辑，只需要使用UI界面即可，十分的方便。</p>
 <p>​        之后的事相信大家也听说过了，腾讯（大概是为自己的机器人铺路）大量封杀这种机器人，甚至利用法律来”屠杀”个体开发者。这篇文章不想费口舌来吐槽这种垄断行径，Tx的这种难看的吃相也让人们对他的嘴脸更加了解。</p>
 <p>​        商业化的机器人没有了，但开源社区的QQ机器人仍然在负隅顽抗。笔者是闲的时候逛逛github，以此发现了mirai框架的存在。</p>
 <h2 id="1-2-mirai框架"><a href="#1-2-mirai框架" class="headerlink" title="1.2 mirai框架"></a>1.2 mirai框架</h2><p>​        mirai是一种基于java、kotlin的机器人框架总称。</p>
@@ -57,7 +57,7 @@
 <h2 id="3-5-封装成jar包"><a href="#3-5-封装成jar包" class="headerlink" title="3.5 封装成jar包"></a>3.5 封装成jar包</h2><p>在编写完毕，测试无误后，你可以启动IDEA里的tasks进行封装。</p>
 <p>具体路径为build/mirai/bulidplugin</p>
 <p>之后你就可以在build文件夹里找到你的jar包啦。</p>
-<p>有能力且愿意的话，欢迎分享你的插件，开源社区是一个交流学习的社区，分享永远是百利而无一害的。</p>
+<p>有能力且愿意的话，欢迎分享你的插件，开源社区是一个交流学习的社区，开源永远是百利而无一害的。</p>
 <div id="paginator"></div></div><div id="post-footer"><hr><a href="/2021/03/15/choudai/">抽象代数 Next →</a><hr></div><div id="bottom-btn"><a id="to-index" href="#post-index" title="index">≡</a><a id="to-top" href="#post-title" title="to top">∧</a></div><details id="reward"><summary>打赏</summary><div id="alipay"><span>支付宝 | Alipay</span><br><img src="/img/Alipay.png"></div><div id="wechat"><span>微信 | WeChat</span><br><img src="/img/WeChat.png"></div></details><div id="Valine"></div><script>new Valine({
  el: '#Valine'
  , appId: ''
